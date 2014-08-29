@@ -1,4 +1,4 @@
-library(EMcluster)
+library(EMCluster)
 
 # perform EM model based clustering in R, and then identifying the centroids
 
