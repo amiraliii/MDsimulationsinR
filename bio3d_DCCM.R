@@ -40,7 +40,15 @@ library(ggplot2)
 ggplot(DCCM,aes(x=Residue1,y=Residue2,fill=Correlation))+geom_tile()+scale_fill_gradientn(colours = jet.colors(7))+facet_grid(~Simulation)+theme_bw()+ggtitle(expression(paste("DCCM matrix of C-",alpha)))
 
 
-
+# output visualization
+## recomputes a new DCCM class object
+WT.DCCM <- dccm(WT.traj)
+WT.pdb <- read.pdb("WT_structure.pdb")
+Mut.DCCM <- dccm(Mut.traj)
+Mut.pdb <- read.pdb("Mut_structure.pdb")
+setwd("dccm")
+view.dccm(WT.DCCM,WT.pdb,omit=0.25,outprefix = "WTcor")
+view.dccm(Mut.DCCM,Mut.pdb,omit=0.25,outprefix = "Mutcor")
 
 
 
