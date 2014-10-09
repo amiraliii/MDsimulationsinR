@@ -16,15 +16,15 @@ plotGraph <- function(fn="hbonds/WTaverage_hbonds.out",
     for(j in 1:length(edgelist)){
             graph <- addEdge(from=names(edgelist[j]),unlist(edgelist)[j],graph,1)
             }
-    graph
+    return(list=c(NEL=graph,Edges=list(edgelist)))
     }
         
 
 
-wtGraph <- plotGraph(cutoff=0.75)
-mutGraph <- plotGraph(fn="hbonds/Mutaverage_hbonds.out",cutoff=0.75)
+wtGraph <- plotGraph(cutoff=0.5)
+mutGraph <- plotGraph(fn="hbonds/Mutaverage_hbonds.out",cutoff=0.55)
 #png("hbonds/graphviz1.png")
 par(mfrow = c(2,1))
-plot(wtGraph,main="wt. hydrogen bond with cutoff 0.75")
+plot(wtGraph$NEL,main="wt. hydrogen bond with cutoff 0.75")
 plot(mutGraph,main="Mut hydrogen bond with cutoff 0.75")
 #dev.off()
