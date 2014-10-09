@@ -39,7 +39,15 @@ DCCM <- rbind(WT.DCCMmelt,Mut.DCCMmelt)
 library(ggplot2)
 ggplot(DCCM,aes(x=Residue1,y=Residue2,fill=Correlation))+geom_tile()+scale_fill_gradientn(colours = jet.colors(7))+facet_grid(~Simulation)+theme_bw()+ggtitle(expression(paste("DCCM matrix of C-",alpha)))
 
-
+# we want to calculate the differences
+diff <- abs(WT.DCCM-Mut.DCCM)
+diffM <- melt(diff)
+colnames(diffM) <- c("Residue1","Correlation")
+diffM$Residue1 <- as.numeric(diffM$Residue1)+90
+diffM$Residue2 <- rep(91:289,199)
+diffM$Call <- unlist(lapply(diffM$Correlation,function(x){ifelse(x>0.5,TRUE,FALSE)}))
+ggplot(diffM,aes(x=Residue1,y=Residue2,fill=Call))+geom_tile()+scale_fill_manual(values=c("TRUE"="red","FALSE"="white"))+theme_bw()+ggtitle(expression(paste("DCCM matrix of C-",alpha)))+scale_x_continuous(breaks=seq(90,290,10))+scale_y_continuous(breaks=seq(90,290,10))
+ggsave("dccm/differenceInCorrelation.png")
 # output visualization
 ## recomputes a new DCCM class object
 #WT.DCCM <- dccm(WT.traj)
