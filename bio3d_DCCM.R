@@ -42,13 +42,22 @@ ggplot(DCCM,aes(x=Residue1,y=Residue2,fill=Correlation))+geom_tile()+scale_fill_
 
 # output visualization
 ## recomputes a new DCCM class object
-WT.DCCM <- dccm(WT.traj)
-WT.pdb <- read.pdb("WT_structure.pdb")
-Mut.DCCM <- dccm(Mut.traj)
-Mut.pdb <- read.pdb("Mut_structure.pdb")
-setwd("dccm")
-view.dccm(WT.DCCM,WT.pdb,omit=0.25,outprefix = "WTcor")
-view.dccm(Mut.DCCM,Mut.pdb,omit=0.25,outprefix = "Mutcor")
+#WT.DCCM <- dccm(WT.traj)
+#WT.pdb <- read.pdb("WT_structure.pdb")
+#Mut.DCCM <- dccm(Mut.traj)
+#Mut.pdb <- read.pdb("Mut_structure.pdb")
+#setwd("dccm")
+#view.dccm(WT.DCCM,WT.pdb,omit=0.25,outprefix = "WTcor")
+#view.dccm(Mut.DCCM,Mut.pdb,omit=0.25,outprefix = "Mutcor")
+
+# to plot DCC within a loop in ggplot
+plotLoop <- function(x){
+    uniqueresidues <- unique(x$Residue1)
+    v <- x
+    lapply(uniqueresidues,function(x){frame <- v[v$Residue1==x,];w <- ggplot(frame,aes(x=Residue2,y=Correlation,colour=Simulation))+geom_line()+scale_color_manual(values=c("WT"="blue","Mut"="red"))+scale_x_continuous(breaks=seq(90,290,10))+ggtitle(paste("Correlation with residue ",x))+xlab("Residue 2")+theme_bw()+geom_hline(y=0.25)+geom_hline(y=-0.25);print(w);file <- paste0("dccm/correlationWithResidue",x,".png");ggsave(file)})
+    return(invisiblea)
+    }
+plotLoop(DCCM)
 
 
 

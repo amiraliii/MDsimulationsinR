@@ -4,9 +4,7 @@
 
 calculateTransitionFrequency <- function(x,average){
     # use statistics from the WT tranjectory to get the range/deviation
-    rangeTolerableUp <- average+deviation
-    rangeTolerableDown <- average-deviation
-    framesState2 <- which(x>rangeTolerableUp||x<rangeTolerableDown) # frames falling outside the normal range 
+    framesState2 <- which(x<average) # frames falling outside the normal range 
     framesState1 <- 1:length(x)[!framesState2]
     framesT <- framesState1+1
     frequencyTransition <- length(framesT%in%framesState2)/length(framesState1)
